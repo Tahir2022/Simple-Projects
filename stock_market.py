@@ -1,41 +1,31 @@
 #represent a tiny in memory stock market and user portfolio
+import yfinance as yf 
+#import time
+
 
 class StockMarketApp:
     def __init__(self):
-        self.prices = {"AAPL": 195.2, "GOOG": 2845.9, "TSLA": 242.5 }
-        self.portfolio = Portfolio()
-
-    #display the main command menu
-
-    def menu(self):
-        print("\n=== Mini Stock Market ===")
-        print("\n1. View prices 2. Buy shares 3. Sell shares 4. View portfolio 5. Exit")
-
-        #handle with user choices in loop
-
-        def run(self):
-            while True:
-                self.menu()
-                ch = input("Select option: ").strip()
-
-                if ch == "1":
-                    self.show_prices()
-                elif ch == "2":
-                    self.buy_flow()
-                elif ch == "3":
-                    self.sell_flow()
-                elif ch == "4":
-                    self.portfolio.show()
-                elif ch == "5":
-                    print("Goodbye!")
-                    break
-                else:
-                    print("Invalid choice.")
-        
-        #print current stock prices
+        self.symbols = ["AAPL", "GOOG", "TSLA", "AMZN"]
+        self.prices = {}
+    
+    def fetch_prices(self):
+        print("--- Fetching live prices ---")
+        for symbol in self.symbols:
+            data = yf.Ticker(symbol)
+            price = data.info["regularMarketPrice"]
+            self.prices[symbol] = price
+        print("Prices updated")
 
     def show_prices(self):
-        for sym, price in self.prices.items():
-            print(f"{sym:<4} : ${price:.2f}")
+        print("\n--- Current Stock Prices ---")
+        for symbol, price in self.prices.items():
+            print(f"{symbol}: ${price}")
+        print("------------------------")
 
-    #guide user through buying
+    def run(self):
+        self.fetch_prices()
+        self.show_prices()
+
+if __name__ == "__main__":
+    app = StockMarketApp()
+    app.run()
