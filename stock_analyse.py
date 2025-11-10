@@ -1,12 +1,14 @@
 import yfinance as yf
 import matplotlib.pyplot as plt
-import seaborn 
+import seaborn as sns
 
-stock = ["AAPL", "XPEV", "TSLA"]
+plt.style.use("seaborn-v0_8")
+stocks = ["AAPL", "XPEV", "TSLA"]
 
-stocks = yf.download(stock, start="2020-01-01", end="today")
-data = stocks.loc[:, "Close"].copy()
+data = yf.download(stocks, start="2020-01-01", end="2025-01-01")["Close"]
 
 data.plot(figsize=(17,8), fontsize=18)
-plt.style.use("seaborn-v0_8")
+plt.title("Stock Prices", fontsize = 20)
+plt.xlabel("Date", fontsize = 16)
+plt.ylabel("Close Price (USD)", fontsize = 16)
 plt.show()
